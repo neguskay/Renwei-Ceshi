@@ -8,13 +8,13 @@ import java.util.List;
 
 public class TrainDetailsDb {
 
-    private TrainDetailsReader trainDetailsReader;
-    private TrainDetailsModel trainDetailsModel;
+    private TrainDetailsFileReader trainDetailsFileReader;
+    private TrainDetail trainDetail;
 
     private String fileToUploadPath;
     private List<String> trainDetailsUnsorted;
-    private List<TrainDetailsModel> trainDetailsSorted;
-    //private Object TrainDetailsModel;
+    private List<TrainDetail> trainDetailsSorted;
+    //private Object TrainDetail;
 
     public TrainDetailsDb(String fileToUploadPath) throws IOException {
 
@@ -26,7 +26,7 @@ public class TrainDetailsDb {
     }
 
     private void initTrainDetailsDb() throws IOException {
-        this.trainDetailsReader = new TrainDetailsReader(this.fileToUploadPath);
+        this.trainDetailsFileReader = new TrainDetailsFileReader(this.fileToUploadPath);
 
         this.trainDetailsSorted = new ArrayList<>();
         setTrainDetailsSorted();
@@ -34,9 +34,9 @@ public class TrainDetailsDb {
 
     private void setTrainDetailsSorted() throws IOException {
         this.trainDetailsUnsorted = new ArrayList<>();
-        this.trainDetailsUnsorted = trainDetailsReader.getDetailsUnsorted();
+        this.trainDetailsUnsorted = trainDetailsFileReader.getDetailsUnsorted();
 
-        for (int i = 1; i < trainDetailsReader.getDetailsUnsorted().size(); i++) {
+        for (int i = 1; i < trainDetailsFileReader.getDetailsUnsorted().size(); i++) {
 
             String dataset = this.trainDetailsUnsorted.get(i);
             String[] splitDataset = dataset.split("-");
@@ -44,7 +44,7 @@ public class TrainDetailsDb {
             //System.out.println(splitDataset[1]);
             //System.out.println(splitDataset[2]);
 
-            this.trainDetailsSorted.add(new TrainDetailsModel(splitDataset[0], Integer.parseInt(splitDataset[1]),
+            this.trainDetailsSorted.add(new TrainDetail(splitDataset[0], Integer.parseInt(splitDataset[1]),
                     Integer.parseInt(splitDataset[2])));
 
 
@@ -64,7 +64,7 @@ public class TrainDetailsDb {
         //Loop through to find all speeds associated with the given train type
         for (int i = 0; i < this.trainDetailsSorted.size(); i++) {
 
-            TrainDetailsModel currentTrain = trainDetailsSorted.get(i);
+            TrainDetail currentTrain = trainDetailsSorted.get(i);
 
             if(currentTrain.getType().equalsIgnoreCase(trainType)){
                 speeds.add(currentTrain.getSpeed());
@@ -81,16 +81,16 @@ public class TrainDetailsDb {
         return lowestSpeed;
     }
 
-    public TrainDetailsModel getHighestEnergy(String trainType){
+    public TrainDetail getHighestEnergy(String trainType){
 
-        ArrayList<TrainDetailsModel> trainTypeEnergy = new ArrayList();
+        ArrayList<TrainDetail> trainTypeEnergy = new ArrayList();
 
         int highestEnergy;
 
         //Loop through to find all speeds associated with the given train type
         for (int i = 0; i < this.trainDetailsSorted.size(); i++) {
 
-            TrainDetailsModel currentTrain = trainDetailsSorted.get(i);
+            TrainDetail currentTrain = trainDetailsSorted.get(i);
 
             if(currentTrain.getType().equalsIgnoreCase(trainType)){
                 trainTypeEnergy.add(currentTrain);
@@ -99,16 +99,16 @@ public class TrainDetailsDb {
             }
 
         }
-        Collections.sort(trainTypeEnergy, new Comparator<TrainDetailsModel>() {
+        Collections.sort(trainTypeEnergy, new Comparator<TrainDetail>() {
             @Override
-            public int compare(TrainDetailsModel o1, TrainDetailsModel o2) {
+            public int compare(TrainDetail o1, TrainDetail o2) {
                 return o1.getEnergy() - o2.getEnergy();
             }
         });
 
         //Sort list in ascending order of speed
-        TrainDetailsModel highestSpeedSet = trainTypeEnergy.get(trainTypeEnergy.size()-1);
-        //TrainDetailsModel highestSpeedSet = trainTypeEnergy.get(0);
+        TrainDetail highestSpeedSet = trainTypeEnergy.get(trainTypeEnergy.size()-1);
+        //TrainDetail highestSpeedSet = trainTypeEnergy.get(0);
 
         return highestSpeedSet;
 
@@ -117,7 +117,7 @@ public class TrainDetailsDb {
     public boolean isDbContainsTrainType(String trainType){
         boolean isContainsTrainType = false;
 
-        for(TrainDetailsModel current: this.trainDetailsSorted) {
+        for(TrainDetail current: this.trainDetailsSorted) {
             if(current.getType().equalsIgnoreCase(trainType))
 
                 isContainsTrainType = true;
