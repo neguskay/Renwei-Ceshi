@@ -10,7 +10,7 @@ public class PartOne {
 
     public void init() throws IOException {
 
-        //TrainDetailsReader trainDetailsReader = new TrainDetailsReader(DEFAULT_TRAIN_DETAILS_FILE_PATH);
+        //TrainDetailsFileReader trainDetailsReader = new TrainDetailsFileReader(DEFAULT_TRAIN_DETAILS_FILE_PATH);
 
         TrainDetailsDb trainDetailsDb = new TrainDetailsDb(DEFAULT_TRAIN_DETAILS_FILE_PATH);
 

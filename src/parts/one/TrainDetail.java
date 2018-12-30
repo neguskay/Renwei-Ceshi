@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-public class TrainDetailsModel {
+public class TrainDetail {
 
     private String type;
 
@@ -12,7 +12,7 @@ public class TrainDetailsModel {
 
 
 
-    public TrainDetailsModel(String type, int speed, int energy) {
+    public TrainDetail(String type, int speed, int energy) {
 
         this.type = type;
         this.speed = speed;

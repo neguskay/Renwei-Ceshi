@@ -17,7 +17,11 @@ public class PassengerDemand {
 
     private int[][] demandMatrix;
 
-    public PassengerDemand(List<String> stations, int[][] demandMatrix){
+    private Object[][] demandMatrixObject;
+
+
+
+    public PassengerDemand(List<String> stations, int[][] demandMatrix, Object[][] demandMatrixObject){
 
         this.stations = stations;
 
@@ -25,6 +29,8 @@ public class PassengerDemand {
 
         this.lineName = (this.stations.get(0).toUpperCase() + "-" +
                 this.stations.get(this.stations.size()-1).toUpperCase());
+
+        this.demandMatrixObject = demandMatrixObject;
 
     }
 
@@ -48,7 +54,9 @@ public class PassengerDemand {
         return demandMatrix;
     }
 
-    public void setDemandMatrix(int[][] demandMatrix) {
-        this.demandMatrix = demandMatrix;
-    }
+    public void setDemandMatrix(int[][] demandMatrix) { this.demandMatrix = demandMatrix; }
+
+    public Object[][] getDemandMatrixObject() { return demandMatrixObject; }
+
+    public void setDemandMatrixObject(Object[][] demandMatrixObject) { this.demandMatrixObject = demandMatrixObject; }
 }

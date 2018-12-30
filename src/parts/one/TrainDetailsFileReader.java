@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TrainDetailsReader {
+public class TrainDetailsFileReader {
 
     private BufferedReader bufferedReader;
     private FileReader fileReader;
@@ -16,7 +16,7 @@ public class TrainDetailsReader {
 
     private List<String> detailsUnsorted;
 
-    public TrainDetailsReader(String filePath) throws IOException {
+    public TrainDetailsFileReader(String filePath) throws IOException {
 
         this.filePath = filePath;
 
