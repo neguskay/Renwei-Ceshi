@@ -21,7 +21,7 @@ public class TrainDelay {
 
 
     public TrainDelay(){
-
+        this.latenessInSeconds = 0;
     }
 
 
