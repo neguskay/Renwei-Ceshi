@@ -12,16 +12,13 @@ public class TrainDelay {
     private String delayId;
     private String trainId;
     private String delayStaion;
-    private String destinationStaion;
-    private String driverName;
-    private String journeyStatus;
 
     private LocalDateTime scheduledDepartTime;
     private LocalDateTime actualDepartTime;
 
 
     public TrainDelay(){
-
+        this.latenessInSeconds = 0;
     }
 
 
