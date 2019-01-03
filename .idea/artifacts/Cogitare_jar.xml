@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Cogitare:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Cogitare_jar</output-path>
+    <root id="archive" name="Cogitare.jar">
+      <element id="module-output" name="Cogitare" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/jars/mysql-connector-java-8.0.13.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
