@@ -1,32 +1,63 @@
 package parts.one;
 
+import utility.EasyIn;
+
 import java.io.IOException;
 
 public class PartOne {
 
     private static final String DEFAULT_TRAIN_DETAILS_FILE_PATH =
             "/Users/negus/IDEA_Projects/InterviewProjects/CogTechEx/TrainDetails.txt";
+    private static final String DEFAULT_QUESTION_TRAIN_NAME = "Please Enter A Valid Train Type To Investigate";
+    private static final String DEFAULT_ERROR_INVALID_TRAIN_TYPE = "No Details Found";
+    private static final String DEFAULT_SPEED_UNIT = " KMPH";
+    private static final String DEFAULT_ENERGY_UNIT = " KWH";
+
+    private TrainDetailsManager trainDetailsManager;
 
 
-    public void init() throws IOException {
+    public PartOne() throws IOException {
 
-        //TrainDetailsFileReader trainDetailsReader = new TrainDetailsFileReader(DEFAULT_TRAIN_DETAILS_FILE_PATH);
+        this.printPartOneWelcome();
 
-        TrainDetailsDb trainDetailsDb = new TrainDetailsDb(DEFAULT_TRAIN_DETAILS_FILE_PATH);
+        this.trainDetailsManager = new TrainDetailsManager(DEFAULT_TRAIN_DETAILS_FILE_PATH);
 
-        printQuestion();
+        this.runUserQueries(this.getUserQueryTrain());
 
-        System.out.println(trainDetailsDb.isDbContainsTrainType("156A"));
-        System.out.println(trainDetailsDb.getHighestEnergy("156A").getEnergy());
-        System.out.println("The lowest is : " + trainDetailsDb.getLowestSpeed("156A"));
     }
 
-    private void printQuestion(){
-        System.out.println("Please Enter A Valid Train Type To Investigate");
+
+    public void runUserQueries(String userQueryTrain) throws IOException {
+
+        TrainDetail queryResult;
+
+        if(trainDetailsManager.isDbContainsTrainType(userQueryTrain)){
+
+            System.out.println("Train Type : "+ userQueryTrain);
+
+            System.out.println("Lowest Speed : " + this.trainDetailsManager.getLowestSpeed(userQueryTrain)
+                    + DEFAULT_SPEED_UNIT);
+
+            queryResult = this.trainDetailsManager.getHighestEnergy(userQueryTrain);
+
+            System.out.println("Highest Consumption : " + queryResult.getEnergy() +DEFAULT_ENERGY_UNIT);
+            System.out.println("Speed at Highest Energy Consumption : " + queryResult.getSpeed() + DEFAULT_SPEED_UNIT);
+
+
+        } else {
+
+            System.out.println(DEFAULT_ERROR_INVALID_TRAIN_TYPE);
+        }
+
     }
 
-    private void printErrorMessage(){
+    private String getUserQueryTrain(){
+        System.out.println(DEFAULT_QUESTION_TRAIN_NAME);
+        return EasyIn.getString();
+    }
 
+    private void printPartOneWelcome(){
+        System.out.println("IN PART ONE...");
     }
 
     private void printInvalidTrainTypeMessage(){

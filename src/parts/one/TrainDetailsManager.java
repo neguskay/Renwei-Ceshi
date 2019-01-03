@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class TrainDetailsDb {
+public class TrainDetailsManager {
 
     private TrainDetailsFileReader trainDetailsFileReader;
     private TrainDetail trainDetail;
@@ -14,14 +14,13 @@ public class TrainDetailsDb {
     private String fileToUploadPath;
     private List<String> trainDetailsUnsorted;
     private List<TrainDetail> trainDetailsSorted;
-    //private Object TrainDetail;
 
-    public TrainDetailsDb(String fileToUploadPath) throws IOException {
 
-        System.out.println(fileToUploadPath);
+    public TrainDetailsManager(String fileToUploadPath) throws IOException {
+
+        System.out.println("File Path Used : " + fileToUploadPath);
         this.fileToUploadPath = fileToUploadPath;
         this.initTrainDetailsDb();
-
 
     }
 
@@ -40,20 +39,11 @@ public class TrainDetailsDb {
 
             String dataset = this.trainDetailsUnsorted.get(i);
             String[] splitDataset = dataset.split("-");
-            //System.out.println(splitDataset[0]);
-            //System.out.println(splitDataset[1]);
-            //System.out.println(splitDataset[2]);
 
             this.trainDetailsSorted.add(new TrainDetail(splitDataset[0], Integer.parseInt(splitDataset[1]),
                     Integer.parseInt(splitDataset[2])));
 
-
-            //System.out.println(splitDataset.length);
-
         }
-
-        System.out.println(this.trainDetailsSorted.get(0).getSpeed() + " KMPH");
-        //System.out.println(this.trainDetailsSorted.);
     }
 
     public int getLowestSpeed(String trainType){
@@ -67,11 +57,10 @@ public class TrainDetailsDb {
             TrainDetail currentTrain = trainDetailsSorted.get(i);
 
             if(currentTrain.getType().equalsIgnoreCase(trainType)){
+
                 speeds.add(currentTrain.getSpeed());
 
-                System.out.println(speeds.size());
             }
-
         }
 
         //Sort list in ascending order of speed
@@ -85,20 +74,20 @@ public class TrainDetailsDb {
 
         ArrayList<TrainDetail> trainTypeEnergy = new ArrayList();
 
-        int highestEnergy;
-
         //Loop through to find all speeds associated with the given train type
         for (int i = 0; i < this.trainDetailsSorted.size(); i++) {
 
             TrainDetail currentTrain = trainDetailsSorted.get(i);
 
             if(currentTrain.getType().equalsIgnoreCase(trainType)){
+
                 trainTypeEnergy.add(currentTrain);
 
                 //System.out.println(speeds.size());
             }
 
         }
+
         Collections.sort(trainTypeEnergy, new Comparator<TrainDetail>() {
             @Override
             public int compare(TrainDetail o1, TrainDetail o2) {
@@ -108,7 +97,6 @@ public class TrainDetailsDb {
 
         //Sort list in ascending order of speed
         TrainDetail highestSpeedSet = trainTypeEnergy.get(trainTypeEnergy.size()-1);
-        //TrainDetail highestSpeedSet = trainTypeEnergy.get(0);
 
         return highestSpeedSet;
 
@@ -121,7 +109,7 @@ public class TrainDetailsDb {
             if(current.getType().equalsIgnoreCase(trainType))
 
                 isContainsTrainType = true;
-                break;
+                //break;
         }
 
         return isContainsTrainType;

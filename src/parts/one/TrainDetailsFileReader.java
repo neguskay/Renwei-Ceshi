@@ -41,10 +41,6 @@ public class TrainDetailsFileReader {
 
         bufferedReader.close();
 
-        System.out.println(this.detailsUnsorted);
-        System.out.println(this.detailsUnsorted.size());
-
-        // If you want to convert to a String[]
         String[] data = this.detailsUnsorted.toArray(new String[]{});
 
     }
