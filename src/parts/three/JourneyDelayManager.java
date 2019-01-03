@@ -32,9 +32,7 @@ public class JourneyDelayManager {
 
         this.initDbTables();
 
-        //this.initDbDelayTable();
-
-
+        this.dbConnection.close();
     }
 
 
@@ -62,23 +60,13 @@ public class JourneyDelayManager {
         }
 
         bufferedReader.close();
-
-        System.out.println(this.delayDetailsRaw);
-        System.out.println(this.delayDetailsRaw.size());
-
-        // If you want to convert to a String[]
-        //String[] data = this.delayDetailsRaw.toArray(new String[]{});
+        
     }
 
     private void initDbConnection() throws SQLException, ClassNotFoundException {
         String dbName, userName, password, dbUrl, portNumber;
 
-        dbName = DbDefaults.DEFAULT_DB_SCHEMA_NAME;
-        userName = DbDefaults.DEFAULT_DB_USERNAME;
-        password = DbDefaults.DEFAULT_DB_PASSWORD;
-        portNumber = DbDefaults.DEFAULT_DB_PORT_NUMBER;
-
-        System.out.println("Would you like to alter the db config?");
+        System.out.println("Would you like to alter the db config? Y or N");
 
         if(EasyIn.getString().equalsIgnoreCase("Y")){
             System.out.println("Please Enter the details for the DB");
@@ -86,6 +74,13 @@ public class JourneyDelayManager {
             userName = this.getUserDbDetails("User Name");
             password = this.getUserDbDetails("Password");
             portNumber = this.getUserDbDetails("Port Number");
+
+        } else {
+
+            dbName = DbDefaults.DEFAULT_DB_SCHEMA_NAME;
+            userName = DbDefaults.DEFAULT_DB_USERNAME;
+            password = DbDefaults.DEFAULT_DB_PASSWORD;
+            portNumber = DbDefaults.DEFAULT_DB_PORT_NUMBER;
         }
 
 
@@ -106,7 +101,6 @@ public class JourneyDelayManager {
     }
 
     private void initDbJourneyTable() throws SQLException {
-        //int count = 1;
 
         PreparedStatement preparedStatement =
                 this.dbConnection.prepareStatement(DbDefaults.DEFAULT_SQL_QUERY_INSERT_JOURNEYS);
@@ -130,13 +124,10 @@ public class JourneyDelayManager {
 
             preparedStatement.execute();
 
-            //count++;
         }
-
     }
 
     private void initDbDelayTable() throws SQLException {
-        //int count = 1;
 
         PreparedStatement preparedStatement =
                 this.dbConnection.prepareStatement(DbDefaults.DEFAULT_SQL_QUERY_INSERT_DELAYS);
@@ -151,9 +142,7 @@ public class JourneyDelayManager {
 
             preparedStatement.execute();
 
-            //count++;
         }
-
     }
 
     private void clearAllDbTables(){

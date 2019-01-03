@@ -29,5 +29,4 @@ public class DbConnectionManager {
         this.dbConnection = dbConnection;
     }
 
-
 }
