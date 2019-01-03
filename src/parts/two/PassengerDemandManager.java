@@ -9,7 +9,12 @@ public class PassengerDemandManager {
 
     private static final String DEFAULT_END_OF_INPUT_STATIONS = "N";
     private static final String DEFAULT_INTERSECT_COL_ROW = "NNNN";
-    private static final String DEFAULT_MATRIX_NAME = "TRAIN--DEMAND";
+    private static final String DEFAULT_MATRIX_NAME = "TRAIN/DEMAND";
+    private static final String DEFAULT_MAX_DEMAND_STATIONS_EMPTY = "No Results";
+    private static final String DEFAULT_USER_PROMPT_ENTER_STATION = "ENTER A STATION TO ADD";
+    private static final String DEFAULT_USER_PROMPT_END_STATION_INPUT = "Enter 'N' If there are no more stations";
+    private static final String DEFAULT_USER_PROMPT_DEMAND_MAX = "Enter a Minimum Demand Amount for investigation";
+
 
     private static final int DEFAULT_DEMAND_MAX_NO_QUERY = 0;
 
@@ -37,7 +42,7 @@ public class PassengerDemandManager {
 
     public void initDemandManager(){
 
-
+        this.getStations();
     }
 
     public void setInputStations(List<String> inputStations){
@@ -50,10 +55,10 @@ public class PassengerDemandManager {
         this.inputStations.clear();
         this.inputStations.add(DEFAULT_MATRIX_NAME);
 
-        System.out.print("How Many Stations are on the line?");
+        //System.out.print("How Many Stations are on the line?");
 
-        System.out.print("What's the next station to add? If there are no more stations, enter " +
-                DEFAULT_END_OF_INPUT_STATIONS);
+        System.out.println(DEFAULT_USER_PROMPT_ENTER_STATION);
+        System.out.println(DEFAULT_USER_PROMPT_END_STATION_INPUT);
 
         String stationToAdd = EasyIn.getString();
 
@@ -62,15 +67,15 @@ public class PassengerDemandManager {
             this.inputStations.add(stationToAdd);
 
             System.out.println();
-            System.out.print("What's the next station to add? If there are no more stations, enter " +
-                    DEFAULT_END_OF_INPUT_STATIONS);
+            System.out.println(DEFAULT_USER_PROMPT_ENTER_STATION);
 
             stationToAdd = EasyIn.getString();
 
         }
 
         if(stationToAdd.equalsIgnoreCase(DEFAULT_END_OF_INPUT_STATIONS)){
-            System.out.println(this.inputStations.size());
+            //System.out.println(this.inputStations.size());
+
             //Create new demand object
             this.passengerDemand = new PassengerDemand(this.inputStations, null, null);
 
@@ -103,37 +108,44 @@ public class PassengerDemandManager {
     private int getQueryThreshold() {
         int queryMin;
 
-        System.out.println("Enter a minimum demand amount for investigation");
+        System.out.println(DEFAULT_USER_PROMPT_DEMAND_MAX);
 
         queryMin = EasyIn.getInt();
 
         while(queryMin<0){
 
-            System.out.println("Enter a minimum demand amount for investigation");
+            System.out.println(DEFAULT_USER_PROMPT_DEMAND_MAX);
 
             queryMin = EasyIn.getInt();
         }
+
         this.queryThreshold = queryMin;
         return queryMin;
     }
 
     public void printMaxDemandStations(List<String[]> maxDemandStations) {
         System.out.println();
-        System.out.println("MAX DEMS");
+        System.out.println("Stations Above Given Minimum Demand:");
 
+        if(maxDemandStations.size()<1){
 
-        for (String[] station: maxDemandStations) {
+            System.out.println(DEFAULT_MAX_DEMAND_STATIONS_EMPTY);
 
-            if(this.isThresholdSet && this.queryThreshold>0){
+        } else {
 
-                System.out.println(station[0]+ " to "
-                        + station[1]+ ": "+station[2]);
+            for (String[] station : maxDemandStations) {
 
-            } else {
+                if (this.isThresholdSet && this.queryThreshold > 0) {
 
-                System.out.println("Maximum Demand is between "+ station[0]+ " to "
-                        + station[1]+ "("+station[2]+")");
+                    System.out.println(station[0] + " to "
+                            + station[1] + ": " + station[2]);
 
+                } else {
+
+                    System.out.println("Maximum Demand is between " + station[0] + " to "
+                            + station[1] + "(" + station[2] + ")");
+
+                }
             }
         }
     }
@@ -144,7 +156,6 @@ public class PassengerDemandManager {
         String station1, station2;
 
         int currentDemand;
-
 
         int[][] currentDemandMatrix = new int[this.passengerDemand.getStations().size()-1]
                 [this.passengerDemand.getStations().size()-1];
@@ -200,7 +211,6 @@ public class PassengerDemandManager {
                 currentMatrixObject[col][row] = passengerDemand.getDemandMatrix()[col-1][row-1];
 
             }
-
         }
 
         return currentMatrixObject;
@@ -216,9 +226,7 @@ public class PassengerDemandManager {
                 System.out.print(passengerDemand.getDemandMatrixObject()[col][row]+ "||");
 
             }
-
         }
-
     }
 
     public int getMaximumDemand(){
@@ -226,13 +234,13 @@ public class PassengerDemandManager {
 
         for (int col = 0; col < this.passengerDemand.getDemandMatrix().length; col++) {
             for (int row = 0; row < this.passengerDemand.getDemandMatrix()[col].length; row++) {
+
                 if(this.passengerDemand.getDemandMatrix()[col][row] >= maxDemand){
 
                     maxDemand = this.passengerDemand.getDemandMatrix()[col][row];
 
                 }
             }
-
         }
 
         return maxDemand;
@@ -267,7 +275,6 @@ public class PassengerDemandManager {
 
                     if (this.passengerDemand.getDemandMatrix()[col][row] > queryThreshold) {
 
-
                         station1 = this.passengerDemand.getStations().get(col + 1);
                         station2 = this.passengerDemand.getStations().get(row + 1);
                         demand = Integer.toString(this.passengerDemand.getDemandMatrix()[col][row]);
@@ -277,7 +284,6 @@ public class PassengerDemandManager {
                     }
                 }
             }
-
         }
 
         return maxDemandStations;

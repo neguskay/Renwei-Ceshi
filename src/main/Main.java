@@ -1,7 +1,7 @@
 package main;
 
 import parts.one.PartOne;
-import parts.two.PassengerDemandManager;
+import parts.two.PartTwo;
 import utility.EasyIn;
 
 import java.io.IOException;
@@ -21,7 +21,7 @@ public class Main {
         if(partEntered == 1){
             new PartOne();
         }else if(partEntered == 2){
-            new PassengerDemandManager().getStations();
+            new PartTwo();
         }else{
 
             while ((partEntered<1)||(partEntered>3)){
