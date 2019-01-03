@@ -13,4 +13,4 @@ Writes data to an SQL Database in mySQL
 
 NOTES:
 Keyword 'FIRST' might need changing to allow for Auto-Increment
-
+For DDL script, see init_db_tables.sql in part.three.db
